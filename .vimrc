@@ -39,9 +39,6 @@ au BufNewFile,BufRead *.phtml set filetype=phtml
 au BufNewFile,BufRead *.smtp set filetype=phtml
 "}}}
 "{{{ Color Scheme
-set t_Co=256
-set background=dark
-colorscheme wombat256jaredmod
 "}}}
 "{{{ Backups & Swap file dirs
 set backup
@@ -131,12 +128,6 @@ nmap <silent> <leader>ev :tabe ~/.vimrc<CR>
 " Make movement on wrapped lines a little more sane
 nmap j gj
 nmap k gk
-
-" Disable arrow keys
-inoremap <up> <nop>
-inoremap <left> <nop>
-inoremap <down> <nop>
-inoremap <right> <nop>
 
 " Split movement
 nmap <silent> <C-h> :wincmd h<cr>
