@@ -60,6 +60,7 @@ let g:Powerline_symbols='fancy'
 syntax enable       " Enable syntax highlighting
 set autoread        " Automatically reload changes if detected
 set wildmenu        " Turn on wild menu
+set wildmode=longest,list  " Set show list for wildmode
 set hidden          " Change buffer without saving
 set history=768     " Number of things to remember in history
 set cf              " Enable error files & error jumping
