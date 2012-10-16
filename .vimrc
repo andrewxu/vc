@@ -32,6 +32,7 @@ Bundle 'git://github.com/myhere/vim-nodejs-complete.git'
 Bundle 'git://github.com/mileszs/ack.vim.git'
 Bundle 'git://github.com/Lokaltog/vim-easymotion.git'
 Bundle 'git://github.com/flazz/vim-colorschemes.git'
+Bundle 'git://github.com/cakebaker/scss-syntax.vim.git'
 
 filetype plugin indent on
 
