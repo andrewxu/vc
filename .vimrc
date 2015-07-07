@@ -17,7 +17,9 @@ Bundle 'git://github.com/tsaleh/vim-align.git'
 Bundle 'git://github.com/tpope/vim-fugitive.git'
 Bundle 'git://github.com/tpope/vim-surround.git'
 Bundle 'git://github.com/guns/xterm-color-table.vim.git'
-Bundle 'git://github.com/hallettj/jslint.vim.git'
+Bundle 'git://github.com/kien/ctrlp.vim.git'
+"Bundle 'git://github.com/hallettj/jslint.vim.git'
+Bundle 'git@github.com:bronson/vim-trailing-whitespace.git'
 Bundle 'git://github.com/wincent/Command-T.git'
 Bundle 'git://github.com/tpope/vim-rails.git'
 Bundle 'git://github.com/kana/vim-smartinput.git'
@@ -69,15 +71,15 @@ set autowrite       " Writes on make/shell commands
 set timeoutlen=350  " Time to wait for a command (after leader forexample)
 set foldlevelstart=99   " Remove folds by default
 set formatoptions=crql  " See fo-table for details
-set foldmethod=marker
+set foldmethod=indent
 set scrolloff=8     " Number of lines from the bottom to begin scrolling
 set sidescrolloff=15 " Number of cols from side to begin scrolling
 set sidescroll=1    " Number of cols to scroll at a time
 set diffopt+=iwhite
 "}}}
 "{{{ Text format
-set tabstop=4       " Make tabs 4 spaces
-set shiftwidth=4    " Intelligently indent 'tabs'
+set tabstop=2       " Make tabs 2 spaces
+set shiftwidth=2    " Intelligently indent 'tabs'
 set cindent         " Intelligent indenting on newlines
 set smarttab        " Insert spaces when hitting tab key on new lines
 set expandtab       " Insert space when hitting tab in the middle of text
@@ -99,6 +101,9 @@ set matchtime=2     " How many tenths of a second to blink
 "{{{ Mouse
 set mousehide       " Hide mouse after chars are typed
 set mouse=nirc      " Mouse in all modes except Visual, I use that for copying to clipboard
+if has("mouse")
+    set mouse=a
+endif
 "}}}
 "{{{ Misc
 " Better complete options to speed it up
