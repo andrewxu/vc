@@ -15,16 +15,12 @@ IDE Stuff
 
 * `\1` - NERDTree Toggle
 * `\2` - TagBar
-* `\3` - NERDTree Find
 
 Tab/Split Keys
 --------------
 
-* `Ctrl-h/j/k/l` -  Navigate split windows
-* `Ctrl+f` - Previous Tab
-* `Ctrl+g` - Next Tab
-* `Ctrl+c` - Close current tab
-* `Ctrl+t` - Open new tab with `:e` active
+* `Ctrl+d` - Previous Tab
+* `Ctrl+f` - Next Tab
 
 Vundle
 --------
@@ -36,7 +32,6 @@ Vundle
 Misc
 -------
 
-* `\ev` - Edit .vimrc
 * `jj` - `Esc` alias
 
 Stock Plugins
