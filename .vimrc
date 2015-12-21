@@ -11,8 +11,10 @@ nmap <leader>bu :PluginInstall!<cr>
 nmap <leader>bc :PluginClean<cr>
 
 " Airline status bar
+" fonts: https://github.com/powerline/fonts
 Plugin 'git://github.com/bling/vim-airline.git'
 let g:airline_powerline_fonts = 1
+set guifont=Inconsolata-g\ for\ Powerline:h12
 
 " Nerd Tree
 Plugin 'git://github.com/scrooloose/nerdtree.git'
@@ -67,6 +69,9 @@ Plugin 'git://github.com/jiangmiao/auto-pairs.git'
 
 " Vim Twig Syntax Highlight
 Plugin 'https://github.com/evidens/vim-twig'
+
+" Vim Less Syntax Highlight
+Plugin 'https://github.com/groenewege/vim-less'
 
 " Match HTML Tags
 Plugin 'https://github.com/Valloric/MatchTagAlways'

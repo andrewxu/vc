@@ -50,5 +50,6 @@ Stock Plugins
 * [Html Annoyance](https://github.com/tudorprodan/html_annoyance.vim) - Fixes a few annoyances when editing HTML, paricularly the underline of anchor tages when they span multiple lines
 * [AutoPairs] (git://github.com/jiangmiao/auto-pairs.git) - auto pairs parenthesis
 * [Twig] (https://github.com/evidens/vim-twig) - Vim Twig syntax highlighting
+* [VimLess] (https://github.com/groenewege/vim-less) - Vim Less css syntax higlighting
 * [MatchTagAlways] (https://github.com/Valloric/MatchTagAlways) - matches html tags so it's easier to find
 * [SumTool] (https://github.com/vim-scripts/visSum.vim) - Sums up numbers in visual block selection
