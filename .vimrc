@@ -97,6 +97,7 @@ set cmdheight=2     " Set command line height
 set tags=./tags,tags; " Set ctags in current directory and then up
 set matchtime=2     " How many tenths of a second to blink
 set showmatch       " Show matching brackets
+set colorcolumn=120 " 120 Char limit marker
 set tabstop=2       " Make tabs 2 spaces
 set shiftwidth=2    " Intelligently indent 'tabs'
 set cindent         " Intelligent indenting on newlines
