@@ -87,6 +87,9 @@ Plugin 'https://github.com/vim-scripts/visSum.vim'
 " Requires installation, see git repo for more info
 Plugin 'git@github.com:Valloric/YouCompleteMe.git'
 
+" Sleuth (Auto Tab detect & set)
+Plugin 'git@github.com:tpope/vim-sleuth.git'
+
 " General UI
 syntax enable       " Enable syntax highlighting
 set nu              " Line Numbers On
@@ -98,11 +101,7 @@ set tags=./tags,tags; " Set ctags in current directory and then up
 set matchtime=2     " How many tenths of a second to blink
 set showmatch       " Show matching brackets
 set colorcolumn=120 " 120 Char limit marker
-set tabstop=2       " Make tabs 2 spaces
-set shiftwidth=2    " Intelligently indent 'tabs'
 set cindent         " Intelligent indenting on newlines
-"set expandtab       " Insert space when hitting tab in the middle of text
-set noexpandtab     " Use tabs and not space
 set wildmenu        " Turn on wild menu
 set wildmode=longest,list  " Set show list for wildmode
 set backup
