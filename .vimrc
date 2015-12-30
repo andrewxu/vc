@@ -83,6 +83,10 @@ filetype plugin indent on
 " Usage: <leader>su
 Plugin 'https://github.com/vim-scripts/visSum.vim'
 
+" YouCompleteMe
+" Requires installation, see git repo for more info
+Plugin 'git@github.com:Valloric/YouCompleteMe.git'
+
 " General UI
 syntax enable       " Enable syntax highlighting
 set nu              " Line Numbers On

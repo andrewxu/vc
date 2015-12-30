@@ -53,3 +53,4 @@ Stock Plugins
 * [VimLess] (https://github.com/groenewege/vim-less) - Vim Less css syntax higlighting
 * [MatchTagAlways] (https://github.com/Valloric/MatchTagAlways) - matches html tags so it's easier to find
 * [SumTool] (https://github.com/vim-scripts/visSum.vim) - Sums up numbers in visual block selection
+* [YouCompleteMe] (git@github.com:Valloric/YouCompleteMe.git) - Auto Complete
