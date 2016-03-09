@@ -107,7 +107,6 @@ set wildmode=longest,list  " Set show list for wildmode
 set backup
 set backupdir=~/.vim/backup//
 set directory=~/.vim/tmp//
-:cd /Volumes/projects/freshapp/ 	" Defaulting directory
 set ignorecase      " Case Insensitive search
 set smartcase       " Intelligent Case sensitive searching
 set incsearch       " Incremental search, matches while typing
