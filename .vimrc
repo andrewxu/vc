@@ -15,6 +15,7 @@ nmap <leader>bc :PluginClean<cr>
 Plugin 'git://github.com/bling/vim-airline.git'
 let g:airline_powerline_fonts = 1
 set guifont=Inconsolata-g\ for\ Powerline:h12
+let g:airline_section_z = '%f'
 
 " Nerd Tree
 Plugin 'git://github.com/scrooloose/nerdtree.git'
@@ -50,12 +51,9 @@ nnoremap <leader>2 :TagbarToggle<CR>
 
 " Syntastic
 Plugin 'git://github.com/scrooloose/syntastic.git'
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_javasciprt_checkers = ['jshint']
 let g:syntastic_php_checkers = ['phpcs']
@@ -73,6 +71,9 @@ Plugin 'https://github.com/evidens/vim-twig'
 " Vim Less Syntax Highlight
 Plugin 'https://github.com/groenewege/vim-less'
 
+" Vim Handlebars Highlight
+Plugin 'https://github.com/nono/vim-handlebars'
+
 " Match HTML Tags
 Plugin 'https://github.com/Valloric/MatchTagAlways'
 
@@ -82,10 +83,6 @@ filetype plugin indent on
 " Sum Tool
 " Usage: <leader>su
 Plugin 'https://github.com/vim-scripts/visSum.vim'
-
-" YouCompleteMe
-" Requires installation, see git repo for more info
-Plugin 'git@github.com:Valloric/YouCompleteMe.git'
 
 " Sleuth (Auto Tab detect & set)
 Plugin 'git@github.com:tpope/vim-sleuth.git'
@@ -100,7 +97,7 @@ set cmdheight=2     " Set command line height
 set tags=./tags,tags; " Set ctags in current directory and then up
 set matchtime=2     " How many tenths of a second to blink
 set showmatch       " Show matching brackets
-set colorcolumn=120 " 120 Char limit marker
+set colorcolumn=80 " 80 Char limit marker
 set cindent         " Intelligent indenting on newlines
 set wildmenu        " Turn on wild menu
 set wildmode=longest,list  " Set show list for wildmode
@@ -121,6 +118,9 @@ nmap <silent> <C-f> :tabnext<cr>
 "map <C-\> :split<CR>:exec("tag ".expand("<cword>"))<CR> 	" Ctags split
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>	" Ctags tabe
 nmap <space> za
+
+" Cusomt Commands
+command Pretty %!python -m json.tool
 
 " Auto Source .vimrc when saved
 if has ("autocmd")
