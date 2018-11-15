@@ -97,7 +97,7 @@ set cmdheight=2     " Set command line height
 set tags=./tags,tags; " Set ctags in current directory and then up
 set matchtime=2     " How many tenths of a second to blink
 set showmatch       " Show matching brackets
-set colorcolumn=80 " 80 Char limit marker
+set colorcolumn=100 " 100 Char limit marker
 set cindent         " Intelligent indenting on newlines
 set wildmenu        " Turn on wild menu
 set wildmode=longest,list  " Set show list for wildmode
@@ -119,8 +119,9 @@ nmap <silent> <C-f> :tabnext<cr>
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>	" Ctags tabe
 nmap <space> za
 
-" Cusomt Commands
-command Pretty %!python -m json.tool
+" Custom Commands
+command PrettyJson %!python -m json.tool
+command FixSpace set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 " Auto Source .vimrc when saved
 if has ("autocmd")
