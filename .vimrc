@@ -37,10 +37,9 @@ Plugin 'git://github.com/tsaleh/vim-align.git'
 " Vim Fugitive - git wrapper in vim
 Plugin 'git://github.com/tpope/vim-fugitive.git'
 
-" CtrlP - fuzz search
-Plugin 'git://github.com/kien/ctrlp.vim.git'
-let g:ctrlp_working_path_mode = 'ra'
-set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,.svn,.git,.hg,.bzr,.sass-cache,*.class,htdocs/framework/**,public/images/**,public/audio/**,public/docs/**,public/software/**,public/flash/**
+" fzf - fuzz search (via homebrew)
+set rtp+=/usr/local/opt/fzf
+Plugin 'junegunn/fzf.vim'
 
 " FixWhitespace
 Plugin 'git@github.com:bronson/vim-trailing-whitespace.git'
@@ -120,8 +119,8 @@ map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>	" Ctags tabe
 nmap <space> za
 
 " Custom Commands
-command PrettyJson %!python -m json.tool
-command FixSpace set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
+command! PrettyJson %!python -m json.tool
+command! FixSpace set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 
 " Auto Source .vimrc when saved
 if has ("autocmd")
