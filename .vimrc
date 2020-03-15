@@ -40,6 +40,7 @@ Plugin 'git://github.com/tpope/vim-fugitive.git'
 " fzf - fuzz search (via homebrew)
 set rtp+=/usr/local/opt/fzf
 Plugin 'junegunn/fzf.vim'
+let g:fzf_command_prefix = 'Fzf'
 
 " FixWhitespace
 Plugin 'git@github.com:bronson/vim-trailing-whitespace.git'
@@ -50,12 +51,15 @@ nnoremap <leader>2 :TagbarToggle<CR>
 
 " Syntastic
 Plugin 'git://github.com/scrooloose/syntastic.git'
+let g:syntastic_enable_elixir_checker = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javasciprt_checkers = ['jshint']
+let g:syntastic_javasciprt_checkers = ['eslint']
 let g:syntastic_php_checkers = ['phpcs']
+let g:syntastic_elixir_checkers = ['elixir']
+let g:syntastic_python_pyflakes_exe = 'python3 -m pyflakes'
 let g:syntastic_html_checkers = ['']
 
 " Html Annoyance - removes underline on <a> tags
@@ -72,6 +76,12 @@ Plugin 'https://github.com/groenewege/vim-less'
 
 " Vim Handlebars Highlight
 Plugin 'https://github.com/nono/vim-handlebars'
+
+" Vim TF Synxtax Highlight
+Plugin 'hashivim/vim-terraform'
+
+" Vim Elixir Syntax Highlight
+Plugin 'https://github.com/elixir-editors/vim-elixir'
 
 " Match HTML Tags
 Plugin 'https://github.com/Valloric/MatchTagAlways'
@@ -121,9 +131,12 @@ map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>	" Ctags tabe
 nmap <space> za
 
 " Custom Commands
-command! PrettyJson %!python -m json.tool
-command! FixSpace set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
-command! PrettyXML :%!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
+command! Pj %!python -m json.tool
+command! Px :%!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
+command! FS set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+command! FW :FixWhitespace
+
+"command! Cda cd /Users/axu/path/to/the/dir
 
 " Auto Source .vimrc when saved
 if has ("autocmd")
