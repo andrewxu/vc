@@ -133,10 +133,8 @@ nmap <space> za
 " Custom Commands
 command! Pj %!python -m json.tool
 command! Px :%!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
-command! FS set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
-command! FW :FixWhitespace
-
-"command! Cda cd /Users/axu/path/to/the/dir
+command! Fs set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+command! Fw :FixWhitespace
 
 " Auto Source .vimrc when saved
 if has ("autocmd")
