@@ -5,8 +5,8 @@ cd ~
 ln -s ${THIS_DIR}/.vimrc
 ln -s ${THIS_DIR}/.vim
 
-cd ${THIS_DIR}/.vim/
-mkdir bundle
-cd bundle
+cd ${THIS_DIR}
+mkdir -p ./vim/bundle
+cd ./vim/bundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim -c BundleInstall!
