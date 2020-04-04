@@ -86,15 +86,15 @@ Plugin 'https://github.com/elixir-editors/vim-elixir'
 " Match HTML Tags
 Plugin 'https://github.com/Valloric/MatchTagAlways'
 
-call vundle#end()
-filetype plugin indent on
-
 " Sum Tool
 " Usage: <leader>su
 Plugin 'https://github.com/vim-scripts/visSum.vim'
 
 " Sleuth (Auto Tab detect & set)
 Plugin 'git@github.com:tpope/vim-sleuth.git'
+
+call vundle#end()
+filetype plugin indent on
 
 " General UI
 syntax enable       " Enable syntax highlighting
@@ -126,7 +126,7 @@ imap kk <ESC>
 imap hh <ESC>
 nmap <silent> <C-d> :tabprev<cr>
 nmap <silent> <C-f> :tabnext<cr>
-"map <C-\> :split<CR>:exec("tag ".expand("<cword>"))<CR> 	" Ctags split
+map <C-\> :split<CR>:exec("tag ".expand("<cword>"))<CR> 	" Ctags split
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>	" Ctags tabe
 nmap <space> za
 
@@ -135,6 +135,10 @@ command! Pj %!python -m json.tool
 command! Px :%!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
 command! Fs set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 command! Fw :FixWhitespace
+
+source shortcuts.vim
+" add the following to shortcuts.vim
+" command! Cdx cd /Users/u/Documents/Path/To/X
 
 " Auto Source .vimrc when saved
 if has ("autocmd")
