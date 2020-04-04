@@ -136,7 +136,7 @@ command! Px :%!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.par
 command! Fs set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 command! Fw :FixWhitespace
 
-source shortcuts.vim
+source ~/.vim/shortcuts.vim
 " add the following to shortcuts.vim
 " command! Cdx cd /Users/u/Documents/Path/To/X
 

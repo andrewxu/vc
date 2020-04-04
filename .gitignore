@@ -1,4 +1,4 @@
 .vim/bundle/*
 .vim/backup/*
 .vim/tmp/*
-shortcuts.vim
+.vim/shortcuts.vim
