@@ -85,7 +85,7 @@ nnoremap <leader>2 :TagbarToggle<CR>
 "Plugin 'git://github.com/tudorprodan/html_annoyance.vim.git'
 
 " Vim Handlebars Highlight
-"Plugin 'https://github.com/nono/vim-handlebars'
+Plugin 'https://github.com/nono/vim-handlebars'
 
 " Match HTML Tags
 "Plugin 'https://github.com/Valloric/MatchTagAlways'
