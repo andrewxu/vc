@@ -12,15 +12,16 @@ nmap <leader>bc :PluginClean<cr>
 
 " Airline status bar
 " fonts: https://github.com/powerline/fonts
-Plugin 'vim-airline/vim-airline'
-let g:airline_powerline_fonts = 1
-set guifont=Inconsolata-g\ for\ Powerline:h12
-let g:airline_section_z = '%f'
+"Plugin 'vim-airline/vim-airline'
+"let g:airline_powerline_fonts = 1
+"set guifont=Inconsolata-g\ for\ Powerline:h12
+"let g:airline_section_z = '%f'
 
 " Nerd Tree
 Plugin 'preservim/nerdtree'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 nnoremap <leader>1 :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['node_modules$', '\.DS_Store$']
 " Custom file extension color mapping
 let g:NERDTreeFileExtensionHighlightFullName = 1
 let g:NERDTreeExactMatchHighlightFullName = 1
@@ -38,9 +39,6 @@ let g:NERDTreeExtensionHighlightColor['ts'] = "89608b"
 let g:NERDTreeExtensionHighlightColor['vue'] = "20b541"
 let g:NERDTreeExtensionHighlightColor['hbs'] = "b4b4b4"
 let g:NERDTreeExtensionHighlightColor['css'] = "ff3bc8"
-" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 " Vim Fugitive - git wrapper in vim (GBlame)
 Plugin 'tpope/vim-fugitive'
@@ -53,16 +51,72 @@ set rtp+=/usr/local/opt/fzf
 Plugin 'junegunn/fzf'              " Core fzf binary
 Plugin 'junegunn/fzf.vim'          " Vim integration
 nnoremap <D-p> :Files<CR>
+" IMPORTANT: Acki search term (no quotes allowed)
+command! -nargs=* Acki call fzf#vim#grep(
+  \ 'ack -i ' .
+  \ '--ignore-file=match:.byebug_history ' .
+  \ '--ignore-file=match:README.rdoc ' .
+  \ '--ignore-file=match:stats.json ' .
+  \ '--ignore-file=match:package-lock.json ' .
+  \ '--ignore-dir=tmp --ignore-dir=log --ignore-dir=logs ' .
+  \ '--ignore-dir=storage --ignore-dir=bin --ignore-dir=dist --ignore-dir=node_modules ' .
+  \ shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview(),
+  \ 0)
+" Disables fzf :W command, and remap to just save
+command! W w
 
 " FixWhitespace
 Plugin 'git@github.com:bronson/vim-trailing-whitespace.git'
+" Highlight trailing whitespace in red
+autocmd BufWritePre * %s/\s\+$//e
+autocmd BufWritePost * match ExtraWhitespace /\s\+$/
+highlight ExtraWhitespace ctermbg=red guibg=red
 
-" Syntax/Autocomplete
+" Autocomplete
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ get(b:, 'coc_enabled', 0) ? coc#refresh() : "\<Tab>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+highlight! CocSearch ctermfg=DarkRed ctermbg=NONE cterm=bold
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Restart on new models (for tsserver)
+"autocmd BufWritePost */models/*.ts :CocRestart
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Typescript Synatax Replacement
 Plugin 'HerringtonDarkholme/yats.vim'
 au BufNewFile,BufRead *.ts set filetype=typescript
+
+" Vue Syntax
+Plugin 'leafOfTree/vim-vue-plugin'
+let g:vim_vue_plugin_config = {
+      \'syntax': {
+      \   'template': ['html'],
+      \   'script': ['javascript', 'typescript'],
+      \   'style': ['css'],
+      \},
+      \'full_syntax': [],
+      \'initial_indent': ['script', 'style'],
+      \'attribute': 1,
+      \'keyword': 0,
+      \'foldexpr': 0,
+      \'debug': 0,
+      \}
 
 " Tagbar - overview of all functions in a file
 Plugin 'majutsushi/tagbar'
@@ -112,6 +166,7 @@ set encoding=utf-8  " Set font encoding
 set laststatus=2    " Always show status line
 set cmdheight=1     " Set command line height
 set matchtime=2     " How many tenths of a second to blink
+set iskeyword+=-    " Treat "-" as part of word lookup
 set showmatch       " Show matching brackets
 set colorcolumn=120 " 120 Char limit marker
 set cindent         " Intelligent indenting on newlines
@@ -131,6 +186,24 @@ set expandtab
 set shiftwidth=2
 set mouse=a
 
+" support * search for id=some-id and #some-id
+function! StarSearch()
+  " Get the word under the cursor
+  let word = expand('<cword>')
+  " If word already starts with #, remove it for matching
+  if word[0] ==# '#'
+    let bare = word[1:]
+  else
+    let bare = word
+  endif
+  " Build regex to match either bare word or #word
+  let @/ = '\v#?' . bare
+  set hlsearch
+  " Jump to next match
+  normal! n
+endfunction
+nnoremap <silent> * :call StarSearch()<CR>
+
 " Touchbar
 let g:macvim_default_touchbar_fullscreen=0
 
@@ -138,10 +211,51 @@ let g:macvim_default_touchbar_fullscreen=0
 imap jj <ESC>
 imap kk <ESC>
 imap hh <ESC>
+imap ;; <ESC>
+" Smooth scrolling with cursor movement (Shift + H/J/K/L)
+nnoremap <S-H> 10h      " Move cursor left (also scrolls if needed)
+nnoremap <S-L> 10l      " Move cursor right (also scrolls if needed)
+nnoremap <S-J> 5j       " Move cursor down (faster than default)
+nnoremap <S-K> 5k       " Move cursor up (faster than default)
+imap <silent> <C-d> <C-o>:tabprev<CR>
+imap <silent> <C-f> <C-o>:tabnext<CR>
 nmap <silent> <C-d> :tabprev<cr>
 nmap <silent> <C-f> :tabnext<cr>
+" toggle fold at cursor
 nmap <space> za
+" disable recording
+nnoremap q <Nop>
 vnoremap Y "+y
+
+" Copy and Paste magic with iTerm2
+"noremap <F8> "+P
+"inoremap <F8> <C-R>+
+"noremap <F9> "+y
+"noremap <C-c> "+y
+" F10 = Cut (delete + copy to system clipboard)
+" Normal mode: Cut current line
+"nnoremap <F10> "+dd
+" Visual mode: Cut selection
+"vnoremap <F10> "+d
+" Insert mode: Cut current line (exits Insert mode)
+"inoremap <F10> <Esc>"+ddi
+"nnoremap <C-v> <C-v>
+"vnoremap <C-v> <C-v>
+"nmap <leader>` :echo "You pressed: " . getchar()<CR>
+
+if &term =~ "xterm"
+  let &t_SI = "\e[6 q"  " Insert mode: bar cursor
+  let &t_EI = "\e[2 q"  " Normal mode: block cursor
+endif
+
+" Auto-restore mouse mode after terminal disruptions
+if has('mouse')
+  set mouse=a
+  augroup FixMouse
+    autocmd!
+    autocmd FocusGained * set mouse=a
+  augroup END
+endif
 
 " Custom Commands
 command! Pj %!python3 -m json.tool
@@ -154,28 +268,32 @@ source ~/.vim/shortcuts.vim
 " add the following to shortcuts.vim
 " command! Cdx cd /Users/u/Documents/Path/To/X
 
-" Auto Source .vimrc when saved
+" Auto Source .vimrc when saved (only this vim window)
 if has ("autocmd")
-	augroup AutoReloadVimRC
-		au!
-		" Auto source vimrc on save
-		au BufWritePost $MYVIMRC so $MYVIMRC
-	augroup END
+  augroup AutoReloadVimRC
+    au!
+    " Auto source vimrc on save
+    au BufWritePost $MYVIMRC so $MYVIMRC
+  augroup END
 endif
 
 " Define custom highlight groups for each tag
 highlight TodoTODO ctermbg=Green  ctermfg=Black guibg=#a8ff60 guifg=#000000
 highlight TodoBUG ctermbg=Red    ctermfg=White guibg=#ff0000 guifg=#ffffff
 highlight TodoIMPORTANT ctermbg=DarkRed ctermfg=White guibg=#ff0000 guifg=#ffffff
+highlight TodoWARNING ctermbg=DarkRed ctermfg=White guibg=#ff0000 guifg=#ffffff
 highlight TodoNOTE  ctermbg=Cyan   ctermfg=Black guibg=#00ffff guifg=#000000
-highlight TodoTBD  ctermbg=Yellow ctermfg=Black guibg=#ffff00 guifg=#000000
+highlight TodoTBD  ctermbg=DARKYELLOW ctermfg=Black guibg=#ffa07a guifg=#000000
+highlight TodoIDEA  ctermbg=Yellow ctermfg=Black guibg=#ffff00 guifg=#000000
 
 " Match tags and link to their highlight groups
 match TodoTODO /\c\<TODO\>/
 match TodoBUG /\c\<BUG\>/
 match TodoIMPORTANT /\c\<IMPORTANT\>/
+match TodoWARNING /\c\<WARNING\>/
 match TodoNOTE /\c\<NOTE\>/
 match TodoTBD /\c\<TBD\>/
+match TodoIDEA /\c\<IDEA\>/
 
 " Re-apply highlights when entering/leaving buffers or insert mode
 autocmd BufWinEnter * call s:HighlightTodos()
@@ -189,6 +307,27 @@ function! s:HighlightTodos()
   call matchadd('TodoTODO',  '\c\<TODO\>')
   call matchadd('TodoBUG', '\c\<BUG\>')
   call matchadd('TodoIMPORTANT', '\c\<IMPORTANT\>')
+  call matchadd('TodoWARNING', '\c\<WARNING\>')
   call matchadd('TodoNOTE',  '\c\<NOTE\>')
   call matchadd('TodoTBD',  '\c\<TBD\>')
+  call matchadd('TodoIDEA',  '\c\<IDEA\>')
 endfunction
+
+" Autoreload
+" Automatically reload file if changed outside and no unsaved changes
+set autoread
+" Trigger autoread on focus or terminal events
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * checktime
+"augroup AutoReloadSafe
+"  autocmd!
+"  autocmd FileChangedShell * echo "File changed externally! Use ':edit!' to reload."
+"  autocmd CursorHold * if !&modified | checktime | endif
+"augroup END
+
+" Notify only if there are unsaved changes
+autocmd FileChangedShellPost *
+      \ echohl WarningMsg | echo "File changed on disk. Unsaved changes detected!" | echohl None
+
+" Log all events to a file (use :messages to view later)
+"set verbosefile=~/vimlog.txt
+"set verbose=9  " Logs everything (9=minimal, 15=detailed)
