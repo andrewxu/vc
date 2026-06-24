@@ -42,6 +42,7 @@ let g:NERDTreeExtensionHighlightColor['css'] = "ff3bc8"
 
 " Vim Fugitive - git wrapper in vim (GBlame)
 Plugin 'tpope/vim-fugitive'
+command! Gblame Git blame --date=short
 
 " Auto pairs - brackets autocomplete
 Plugin 'jiangmiao/auto-pairs'
@@ -93,10 +94,12 @@ function! CheckBackspace() abort
 endfunction
 " Restart on new models (for tsserver)
 "autocmd BufWritePost */models/*.ts :CocRestart
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gf <Plug>(coc-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> [ <Plug>(coc-diagnostic-prev)
+nmap <silent> ] <Plug>(coc-diagnostic-next)
 
 " Typescript Synatax Replacement
 Plugin 'HerringtonDarkholme/yats.vim'
@@ -185,6 +188,7 @@ set tabstop=2
 set expandtab
 set shiftwidth=2
 set mouse=a
+set splitright      " vsplit to the right
 
 " support * search for id=some-id and #some-id
 function! StarSearch()
@@ -312,6 +316,14 @@ function! s:HighlightTodos()
   call matchadd('TodoTBD',  '\c\<TBD\>')
   call matchadd('TodoIDEA',  '\c\<IDEA\>')
 endfunction
+
+augroup vue_jump
+  autocmd!
+  autocmd BufEnter *.vue nnoremap <buffer> 1 /^<template<CR>
+  autocmd BufEnter *.vue nnoremap <buffer> 2 /^<script<CR>
+  autocmd BufEnter *.vue nnoremap <buffer> 3 /^<style<CR>
+  autocmd BufEnter *.ts nnoremap <buffer> 4 /^export function <CR>
+augroup END
 
 " Autoreload
 " Automatically reload file if changed outside and no unsaved changes

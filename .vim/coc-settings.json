@@ -1,3 +1,21 @@
 {
-  "suggest.noselect": true
+  "suggest.noselect": true,
+  "vue.complete.casing.props": "autoCamel",
+  "vue.complete.casing.tags": "pascal",
+  "tsserver.enable": true,
+  "volar.enable": true,
+  "tsserver.disableAutomaticTypeAcquisition": true,
+  "tsserver.maxTsServerMemory": 1024,
+  "tsserver.useSyntaxServer": "never",
+  "typescript.suggest.autoImports": false,
+  "typescript.suggest.paths": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "coc.source.around.enable": false,
+  "coc.source.buffer.enable": false,
+  "css.lint.unknownAtRules": "ignore",
+  "suggest.maxCompleteItemCount": 20,
+  "suggest.minTriggerInputLength": 2,
+  "suggest.triggerAfterInsertEnter": true,
+  "html.autoClosingTags": false,
+  "html.autoCreateQuotes": false
 }
