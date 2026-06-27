@@ -373,5 +373,5 @@ function! CollapseImport() range
   execute a:firstline . ',' . a:lastline . 'd _'
   call append(a:firstline - 1, result)
 endfunction
-xnoremap e :call ExpandImport()<CR>
-xnoremap c :call CollapseImport()<CR>
+xnoremap o :call ExpandImport()<CR>
+xnoremap i :call CollapseImport()<CR>
