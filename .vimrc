@@ -343,3 +343,35 @@ autocmd FileChangedShellPost *
 " Log all events to a file (use :messages to view later)
 "set verbosefile=~/vimlog.txt
 "set verbose=9  " Logs everything (9=minimal, 15=detailed)
+
+" For VisualSelect + Expand/Collapse imports quickly
+function! ExpandImport() range
+  let lines = getline(a:firstline, a:lastline)
+  let full = join(lines, ' ')
+  let match = matchlist(full, 'import\s*{\s*\(.\{-}\)\s*}\s*\(from\s*.\+\)')
+  if empty(match) | return | endif
+  let items = split(match[1], '\s*,\s*')
+  let indent = repeat(' ', 2)
+    let result = ['import {']
+  for item in items
+    call add(result, indent . trim(item) . ',')
+  endfor
+  let result[-1] = substitute(result[-1], ',$', '', '')
+  call add(result, '} ' . trim(match[2]))
+  execute a:firstline . ',' . a:lastline . 'd _'
+  call append(a:firstline - 1, result)
+endfunction
+
+function! CollapseImport() range
+  let lines = getline(a:firstline, a:lastline)
+  let full = join(map(lines, 'trim(v:val)'), ' ')
+  let match = matchlist(full, 'import\s*{\s*\(.\{-}\)\s*}\s*\(from\s*.\+\)')
+  if empty(match) | return | endif
+  let items = split(match[1], '\s*,\s*')
+  let cleaned = map(items, 'substitute(trim(v:val), ",$", "", "")')
+  let result = 'import { ' . join(cleaned, ', ') . ' } ' . trim(match[2])
+  execute a:firstline . ',' . a:lastline . 'd _'
+  call append(a:firstline - 1, result)
+endfunction
+xnoremap e :call ExpandImport()<CR>
+xnoremap c :call CollapseImport()<CR>
