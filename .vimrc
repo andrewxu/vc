@@ -345,33 +345,36 @@ autocmd FileChangedShellPost *
 "set verbose=9  " Logs everything (9=minimal, 15=detailed)
 
 " For VisualSelect + Expand/Collapse imports quickly
-function! ExpandImport() range
+function! ExpandBlock() range
   let lines = getline(a:firstline, a:lastline)
-  let full = join(lines, ' ')
-  let match = matchlist(full, 'import\s*{\s*\(.\{-}\)\s*}\s*\(from\s*.\+\)')
+  let full = trim(join(lines, ' '))
+  let match = matchlist(full, '^\(.\{-}{\s*\)\(.\{-}\)\(\s*}.\+\)$')
   if empty(match) | return | endif
-  let items = split(match[1], '\s*,\s*')
-  let indent = repeat(' ', 2)
-    let result = ['import {']
+  let indent = matchstr(getline(a:firstline), '^\s*')
+  let inner_indent = indent . repeat(' ', 2)
+  let items = split(match[2], '\s*,\s*')
+  let result = [indent . trim(match[1])]
   for item in items
-    call add(result, indent . trim(item) . ',')
+    call add(result, inner_indent . trim(item) . ',')
   endfor
   let result[-1] = substitute(result[-1], ',$', '', '')
-  call add(result, '} ' . trim(match[2]))
+  call add(result, indent . trim(match[3]))
   execute a:firstline . ',' . a:lastline . 'd _'
   call append(a:firstline - 1, result)
 endfunction
 
-function! CollapseImport() range
+function! CollapseBlock() range
   let lines = getline(a:firstline, a:lastline)
-  let full = join(map(lines, 'trim(v:val)'), ' ')
-  let match = matchlist(full, 'import\s*{\s*\(.\{-}\)\s*}\s*\(from\s*.\+\)')
+  let full = trim(join(map(lines, 'trim(v:val)'), ' '))
+  let match = matchlist(full, '^\(.\{-}{\s*\)\(.\{-}\)\(\s*}.\+\)$')
   if empty(match) | return | endif
-  let items = split(match[1], '\s*,\s*')
+  let indent = matchstr(getline(a:firstline), '^\s*')
+  let items = split(match[2], '\s*,\s*')
   let cleaned = map(items, 'substitute(trim(v:val), ",$", "", "")')
-  let result = 'import { ' . join(cleaned, ', ') . ' } ' . trim(match[2])
+  let result = indent . trim(match[1]) . ' ' . join(cleaned, ', ') . ' ' . trim(match[3])
   execute a:firstline . ',' . a:lastline . 'd _'
   call append(a:firstline - 1, result)
 endfunction
-xnoremap o :call ExpandImport()<CR>
-xnoremap i :call CollapseImport()<CR>
+
+xnoremap o :call ExpandBlock()<CR>
+xnoremap i :call CollapseBlock()<CR>
