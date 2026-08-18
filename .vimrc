@@ -160,6 +160,62 @@ Plugin 'https://github.com/ap/vim-css-color'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" Fix YATS indentation for completed single-line TypeScript control statements
+function! MyTypescriptIndent()
+  " Let YATS calculate the normal indentation first
+  let l:yats_indent = GetTypescriptIndent()
+
+  let l:prev = prevnonblank(v:lnum - 1)
+
+  " Skip // comments when looking for the previous actual statement
+  while l:prev > 0 && getline(l:prev) =~# '^\s*//'
+    let l:prev = prevnonblank(l:prev - 1)
+  endwhile
+
+  if l:prev > 0
+    let l:line = getline(l:prev)
+    let l:prev_indent = indent(l:prev)
+
+    " Completed single-line if / else-if / for / while
+    "
+    " Examples:
+    "   if (foo) continue
+    "   if (foo) return value
+    "   if (foo) doSomething()
+    "   else if (foo) doSomething()
+    "   for (const item of items) process(item)
+    "   while (running) tick()
+    "
+    " Only override YATS if it incorrectly wants to indent deeper.
+    if l:line =~# '^\s*\%(\%(else\s\+\)\?if\|for\|while\)\>.*)\s\+\%({\|/\)\@!\S'
+          \ && l:yats_indent > l:prev_indent
+      return l:prev_indent
+    endif
+
+    " Completed single-line else
+    "
+    " Example:
+    "   else doSomething()
+    if l:line =~# '^\s*else\>\s\+\%(if\>\|{\|/\)\@!\S'
+          \ && l:yats_indent > l:prev_indent
+      return l:prev_indent
+    endif
+  endif
+
+  " Otherwise trust YATS completely
+  return l:yats_indent
+endfunction
+augroup typescript_indent_fix
+  autocmd!
+  autocmd FileType typescript setlocal indentexpr=MyTypescriptIndent()
+augroup END
+
+" Markdown task lists use two-space indentation; override vim-sleuth's detection.
+augroup markdown_two_space_indent
+  autocmd!
+  autocmd FileType markdown setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+augroup END
+
 " General UI
 syntax enable       " Enable syntax highlighting
 set re=2            " New RegexEngine for syntax
@@ -172,7 +228,6 @@ set matchtime=2     " How many tenths of a second to blink
 set iskeyword+=-    " Treat "-" as part of word lookup
 set showmatch       " Show matching brackets
 set colorcolumn=120 " 120 Char limit marker
-set cindent         " Intelligent indenting on newlines
 set wildmenu        " Turn on wild menu
 set wildmode=longest,list  " Set show list for wildmode
 set backup
@@ -378,3 +433,13 @@ endfunction
 
 xnoremap o :call ExpandBlock()<CR>
 xnoremap i :call CollapseBlock()<CR>
+
+
+let g:markdown_fenced_languages = [
+  \ 'ts=typescript',
+  \ 'js=javascript',
+  \ 'json',
+  \ 'css',
+  \ 'html',
+  \ 'bash=sh'
+  \ ]
